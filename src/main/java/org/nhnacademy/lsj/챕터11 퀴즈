@@ -1,0 +1,148 @@
+Question 1:
+
+In Java, input/output is done using I/O streams. I/O streams are an abstraction.
+Explain what this means and why it is important.
+
+I/O Stream 은 Abstract Class 입니다.
+
+Abstrac Class 는 미완성 설계도로 , 약간의 구현과 기능의 명시를 포함합니다.
+
+이렇게 만든 이유는
+
+공통적으로 묶여 필수적으로 구현해야하는 연산들은 미리 구현해놓고 , 그렇지 않은 연산에 대해서는
+
+명시만 해놓음으로써 다른 해당 Class를 extends 받는 Class가 자체적으로 구현하게 만드는 것입니다.
+
+Question 2:
+
+Java has two types of I/O stream: character streams and byte streams.
+Why? What is the difference between the two types of streams?
+
+
+Characte Steams 은 사람이 보고 쓰기 위한 것
+
+Byte Streams 은 컴퓨터가 보고 쓰기 위한 것
+
+
+Question 3:
+
+What is a file? Why are files necessary?
+
+컴퓨터가 메인 메모리에 저장하는 형식을 file 이라 한다.
+
+이게 없으면 컴퓨터 껏다가 킬때마다 모든 Data가 다 날라간다.
+
+
+Question 4:
+
+What is the point of the following statement?
+
+out = new PrintWriter( new FileWriter("data.dat") );
+
+Why would you need a statement that involves two different stream classes,
+PrintWriter and FileWriter?
+
+PrintWriter 는 출력을 위한 Stream임
+
+Stream의 큰 특징은 Wrapping이 가능함 , 따라서 FileWriter 라는 OutputStream을 Wrapping해
+
+PrintWriter에 넣어서 쓰겠다는 소리
+
+
+
+
+Question 5:
+
+The package java.io includes a class named URL. What does an object of type URL represent,
+and how is it used?
+
+네트워크에서 리소르를 찾을수 있는 정보를 포함한 고유한 주소가 필요함
+
+그게 URL 이야
+
+
+
+Question 6:
+
+What is the purpose of the FileChooser class?
+
+사용자가 파일을 선택할 수 있게 창을 생성하는 클래스
+
+
+
+Question 7:
+
+Explain what is meant by the client / server model of network communication.
+
+
+Server쪽은 client의 요청을 기다립니다 , 이 기다리는 것을 Listening Socket = Server Socket을 둠으로써 해결합니다.
+
+또 요청을 주는 Socket을 Client Socket라고합니다.
+
+이렇게 둘이 연결이되면 I/O Streams 를 통해서 통신하게됩니다.
+
+
+
+
+
+Question 8:
+
+What is a socket?
+
+프로그램이 다른 프로그램과 연결될떄 사용하는 설정
+
+또 한 컴퓨터에서 여러가지 작업을 수행할때 Data가 어느곳으로 가야하는지 위치를 정해주기도 해
+
+Ex) 인터넷 창이 여러개에 동영상 틀어놓으면  들어오는 Data가 어느 창으로 가야하는지 알려줌
+
+
+
+
+Question 9:
+
+What is a ServerSocket and how is it used?
+
+Server Socket은  Client Socket의 요청을 기다리는 애야
+
+연결을 기다리는 동안 Block 돼 , 즉 다른 작업을 수행할 수 없어.
+
+
+
+
+
+
+Question 10:
+
+What is meant by an element in an XML document?
+
+<curve> 와 같은 태그 입니다
+
+start-tag <curve>    </curve> end-tag
+
+이 tag 사이에 text가 들어가는 형식입니다.
+
+
+Question 11:
+
+What is it about XML that makes it suitable for representing almost any type of data?
+
+tags , attibutes , text 로 구성
+
+
+Question 12:
+
+Write a complete program that will display the first ten lines from a text file.
+The lines should be written to standard output, System.out.
+The file name is given as the command-line argument args[0].
+You can assume that the file contains at least ten lines. Don't bother to make the program robust.
+Do not use TextIO to process the file; read from the file using methods covered in this chapter.
+
+BufferedReader bf = new BufferedReader(new FileReader(new File(args[0])));
+
+        for(int i=0;i<10;i++){
+            String line = bf.readLine();
+
+            System.out.println(line);
+        }
+
+
