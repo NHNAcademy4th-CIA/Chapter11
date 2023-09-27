@@ -10,14 +10,9 @@ import java.net.Socket;
 import java.util.Arrays;
 
 /**
- * This program is a server that takes connection requests on
- * the port specified by the constant LISTENING_PORT.  When a
- * connection is opened, the program sends the current time to
- * the connected socket.  The program will continue to receive
- * and process connections until it is killed (by a CONTROL-C,
- * for example).  Note that this server processes each connection
- * as it is received, rather than creating a separate thread
- * to process the connection.
+ * .요청을 기다리고 클라이언트가 스트림을 보내면 보낸 스트림을 받는다.
+ * GET / INDEX, 해당하지 않는 경우를 조건문으로 확인하고
+ * 파일이면 OK, 디렉토리면 파일 이름이어야 한다는 문자열을 전송한다.
  */
 public class FileServer {
 
@@ -25,8 +20,8 @@ public class FileServer {
 
     public static void main(String[] args) {
 
-        ServerSocket listener;  // Listens for incoming connections.
-        Socket connection;      // For communication with the connecting program.
+        ServerSocket listener;
+        Socket connection;
 
         /* Accept and process connections forever, or until some error occurs.
            (Note that errors that occur while communicating with a connected
@@ -49,6 +44,15 @@ public class FileServer {
 
     }  // end main()
 
+    /**
+     * .getInputStream으로 client로부터 입력을 받아온다. bufferedReader로 랩해 readLine으로 한 줄의 명령을 받을 수 있게 한다.
+     * input이 INDEX이면 서버에서 사용할 수 있는 모든 파일 이름 목록을 보낸다.
+     * input이 GET으로 시작하면
+     * 1. OK 전송 후 뒤에 오는 파일의 content 전송
+     * 2. 파일이 아닌 디렉토리 명이라면 ERROR message를 전송한다.
+     *
+     * @param client socket
+     */
     private static void clientCommand(Socket client) {
         int BUF_SIZE = 1024 * 7;
 
@@ -60,13 +64,11 @@ public class FileServer {
             System.out.println(messageIn);
 
             if (messageIn.equals("INDEX")) {
-                File directory = new File("src/main/java/org/nhnacademy");
+                File directory = new File(System.getProperty("user.home"));
                 String[] files = directory.list();
                 System.out.println(Arrays.toString(files));
                 sendMsg(client, Arrays.toString(files));
-                client.close();
-            }
-            else if (messageIn.startsWith("GET")) {
+            } else if (messageIn.startsWith("GET")) {
                 String fileName = messageIn.substring(3).trim();
                 StringBuilder sb = new StringBuilder();
                 File file = new File(fileName);
@@ -82,15 +84,15 @@ public class FileServer {
                         System.out.println(sb);
                     }
                     sendMsg(client, sb.toString());
-                    client.close();
-                }
-                else {
+                } else {
                     // // send "ERROR, error msg" and close connection
                     sendMsg(client, "ERROR : " + fileName + " is not file name");
                 }
             } else {
                 sendMsg(client, "입력은 INDEX거나 GET <fileName>이어야 합니다.");
             }
+            client.close();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -98,9 +100,11 @@ public class FileServer {
 
 
     /**
-     * The parameter, client, is a socket that is already connected to another
-     * program.  Get an output stream for the connection, send the current time,
-     * and close the connection.
+     * PrintWriter 객체를 생성해 입력값에 대한 응답을 클라이언트에 보낸다.
+     * GET일 경우 OK를 보낸 후 content를 보내야하기 때문에 close는 clientCommand에서 처리한다.
+     *
+     * @param client   socket
+     * @param response 응답값
      */
     private static void sendMsg(Socket client, String response) {
         try {
