@@ -9,6 +9,9 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/***
+ * 각 파일의 라인 읽어오기
+ */
 public class Quiz2 {
     public Quiz2() {
         new CustomFile();
@@ -16,9 +19,11 @@ public class Quiz2 {
     }
 }
 
+/***
+ * 커스텀 파일 클래스
+ */
 class CustomFile {
     private Logger logger = LoggerFactory.getLogger(Quiz2.class);
-    File file;
 
     public CustomFile() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -39,10 +44,15 @@ class CustomFile {
         }
     }
 
+    /***
+     * 파일에 라인 사이즈를 반환해주는 메소드
+     * @param bufferedReader 입력
+     * @return 라인 수
+     */
     private int fileLineSize(BufferedReader bufferedReader) {
         int count = 0;
         try {
-            while (bufferedReader.readLine()!=null) {
+            while (bufferedReader.readLine() != null) {
                 count++;
             }
         } catch (IOException e) {
