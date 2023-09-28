@@ -1,9 +1,13 @@
 package org.nhnacademy.lsj;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,20 +17,30 @@ public class Problem2 {
 
     public static void problem2() {
 
-        String[] textName = {"src/main/resources/file1.txt",
-                "src/main/resources/file2.txt", "src/main/resources/file3.txt"};
 
-        for (int i = 0; i < 3; i++) {
+        List<String> textName = new ArrayList<>();
 
-            try (BufferedReader bf = new BufferedReader(new FileReader(textName[i]))) {
+        textName.add("src/main/resources/file1.txt");
+        textName.add("src/main/resources/file2.txt");
+        textName.add("src/main/resources/file3.txt");
+
+
+        for (int i = 0; i < textName.size(); i++) {
+
+            try (BufferedReader bf = new BufferedReader(new FileReader(textName.get(i)));
+                 BufferedWriter bw = new BufferedWriter(new FileWriter(textName.get(i) + "_it's a copy"))) {
 
                 int count = 0;
 
-                while (bf.readLine() != null) {
+                String str = null;
+
+                while ((str = bf.readLine()) != null) {
+                    bw.write(str);
+                    bw.newLine();
                     count++;
                 }
 
-                logger.info("{} 파일은 {}줄로 이루어져 있습니다.", textName[i], count);
+                logger.info("{} 파일은 {}줄로 이루어져 있습니다.", textName.get(i), count);
 
             } catch (FileNotFoundException e) {
                 logger.warn("파일을 찾지 못했습니다");
@@ -36,8 +50,8 @@ public class Problem2 {
 
 
         }
-
-
     }
 
 }
+
+
