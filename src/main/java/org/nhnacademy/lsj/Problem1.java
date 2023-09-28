@@ -5,10 +5,16 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * directory 이름을 입력받으면 해당하는 경로 아래에 있는 모든 파일 및 directory의 경로와 이름을 출력함.
+ */
 public class Problem1 {
 
     private static final Logger logger = LoggerFactory.getLogger(Problem1.class);
 
+    /**
+     * 프로그램이 시작됨 .
+     */
     public static void problem1() {
 
         String directoryName;
@@ -41,6 +47,12 @@ public class Problem1 {
 
     }
 
+    /**
+     * 해당하는 dicrectory 아래에 있는 모든 것을 읽음 , 그게 또 다른 directory면 재귀적으로 불러 모든 파일 읽음.
+     *
+     * @param directory 출력할 directory .
+     * @param files     directory가 기지고 있는 파일 or directory의 list.
+     */
     public static void printDirectory(File directory, String[] files) {
 
 
