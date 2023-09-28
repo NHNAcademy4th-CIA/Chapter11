@@ -12,7 +12,7 @@ public class Problem1 {
     public static void problem1() {
 
         String directoryName;
-        File_ directory;
+        File directory;
 
 
         Scanner sc = new Scanner(System.in);
@@ -21,69 +21,45 @@ public class Problem1 {
         logger.info("Directory 이름을 입력해주세요");
 
         directoryName = sc.nextLine();
-        directory = new File_(new File("src/main/" + directoryName), directoryName);
+
+        directory = new File("src/main/", directoryName);
 
 
         try {
-            if (!directory.getDir().isDirectory()) {
+            if (!directory.isDirectory()) {
                 logger.warn("Directory 입력이 잘못됐습니다! ");
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
             logger.info("프로그램을 재시작 해주세요");
+            return;
         }
 
 
-        printDirectory(directory, directory.getDir().list());
+        printDirectory(directory, directory.list());
 
 
     }
 
-    public static void printDirectory(File_ directory, String[] files) {
+    public static void printDirectory(File directory, String[] files) {
 
 
         for (int i = 0; i < files.length; i++) {
 
-            File_ file_ = new File_(new File(directory.getDir() + "/" + files[i]), files[i]);
-
-            if (file_.getDir().isDirectory()) {
-
-                File_ directories = new File_(new File(directory.getDir() + "/" + files[i]), files[i]);
+            File file = new File(directory + "/" + files[i], files[i]);
 
 
-                printDirectory(directories, directories.getDir().list());
+            if (file.isDirectory()) {
+
+                File directories = new File(directory + "/" + files[i], files[i]);
+                printDirectory(directories, directories.list());
                 continue;
             }
 
-            logger.info("파일 경로 {} 파일 이름{}", file_.getDir(), file_.getFileName());
+            logger.info("파일 경로 {} 파일 이름 {}", file, file.getName());
 
         }
 
     }
 
 }
-
-
-class File_ {
-
-    public File getDir() {
-        return dir;
-    }
-
-    private File dir;
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    private String fileName;
-
-
-    public File_(File dir, String fileName) {
-        this.dir = dir;
-        this.fileName = fileName;
-    }
-
-
-}
-
