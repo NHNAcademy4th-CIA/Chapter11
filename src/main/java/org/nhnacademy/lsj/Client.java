@@ -18,7 +18,6 @@ public class Client {
     public static void main(String[] args) {
 
 
-
         try (Socket connection = new Socket("127.0.0.1", LISTENING_PORT);
              BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
              PrintWriter pw = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()), true);
@@ -28,10 +27,9 @@ public class Client {
 
             pw.println(sc.nextLine());
 
-            String data;
-            while ((data = incoming.readLine()) != null) {
-                logger.info("{}", data);
-            }
+
+            incoming.lines().forEach(x -> logger.info("{}", x));
+
 
             logger.info("프로그램 종료");
 

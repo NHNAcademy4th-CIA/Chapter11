@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.slf4j.Logger;
@@ -44,10 +43,11 @@ public class Server {
 
     }
 
-    private static void isValidate(PrintWriter bw, File file) throws IOException {
+    private static void isValidate(BufferedWriter bw, File file) throws IOException {
 
         if (file.isFile() || file.isDirectory()) {
-            bw.println("OK");
+            bw.write("OK");
+            bw.newLine();
             return;
         }
 
@@ -62,8 +62,7 @@ public class Server {
 
 
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(server.getInputStream()));
-             PrintWriter pw = new PrintWriter(new OutputStreamWriter(server.getOutputStream())))
-        {
+             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()))) {
 
             logger.info("Connection from " + server.getInetAddress());
 
@@ -77,20 +76,24 @@ public class Server {
 
             if (str.equals("INDEX")) {
 
+
                 file = new File(path);
+                isValidate(bw, file);
+
 
                 String[] files = file.list();
 
                 for (int i = 0; i < files.length; i++) {
                     logger.info("{}", files[i]);
-                    pw.println(files[i]);
+                    bw.write(files[i]);
+                    bw.newLine();
                 }
 
             } else if (str.substring(0, 3).equals("GET")) {
 
                 file = new File(path + "/" + str.substring(4));
 
-                isValidate(pw, file);
+                isValidate(bw, file);
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
@@ -98,7 +101,9 @@ public class Server {
 
                 while ((temp = bufferedReader.readLine()) != null) {
                     logger.info(temp); // 서버 로그
-                    pw.println(temp);  // 클라이언트한테 출력
+                    bw.write(temp);
+                    bw.newLine();
+
                 }
 
             } else {
@@ -106,7 +111,8 @@ public class Server {
                 throw new IllegalArgumentException();
             }
 
-            pw.println("Socket Close");
+            bw.write("Socket Close");
+            bw.flush();
         } catch (IOException e) {
             logger.info("Error: " + e.getMessage());
         }
