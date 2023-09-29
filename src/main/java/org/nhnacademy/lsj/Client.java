@@ -2,6 +2,7 @@ package org.nhnacademy.lsj;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -16,32 +17,27 @@ public class Client {
 
     public static void main(String[] args) {
 
-        String hostName;
-        Socket connection;
-        BufferedReader incoming;
-        PrintWriter printWriter;
 
 
-        try {
-
-            connection = new Socket("127.0.0.1", LISTENING_PORT);
-
-            printWriter = new PrintWriter(connection.getOutputStream(), true);
+        try (Socket connection = new Socket("127.0.0.1", LISTENING_PORT);
+             BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+             PrintWriter pw = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()), true);
+        ) {
 
             Scanner sc = new Scanner(System.in);
 
-            printWriter.println(sc.nextLine());
+            pw.println(sc.nextLine());
 
-            incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            while ((hostName = incoming.readLine()) != null) {
-                logger.info("{}", hostName);
+            String data;
+            while ((data = incoming.readLine()) != null) {
+                logger.info("{}", data);
             }
 
+            logger.info("프로그램 종료");
 
         } catch (Exception e) {
 
-            logger.warn("안돼용");
+            logger.warn("{}", e.getMessage());
         }
 
 
