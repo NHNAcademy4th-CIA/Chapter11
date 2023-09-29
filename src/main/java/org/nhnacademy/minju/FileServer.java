@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * .요청을 기다리고 클라이언트가 스트림을 보내면 보낸 스트림을 받는다.
@@ -15,7 +17,7 @@ import java.util.Arrays;
  * 파일이면 OK, 디렉토리면 파일 이름이어야 한다는 문자열을 전송한다.
  */
 public class FileServer {
-
+    private static final Logger logger = LoggerFactory.getLogger(FileServer.class);
     public static final int LISTENING_PORT = 32007;
 
     public static void main(String[] args) {
@@ -37,8 +39,8 @@ public class FileServer {
                 clientCommand(connection);
             }
         } catch (Exception e) {
-            System.out.println("Sorry, the server has shut down.");
-            System.out.println("Error:  " + e);
+            logger.warn("Sorry, the server has shut down.");
+            logger.warn("Error:  " + e);
             return;
         }
 
@@ -61,12 +63,10 @@ public class FileServer {
 
 
             String messageIn = incoming.readLine();
-            System.out.println(messageIn);
 
             if (messageIn.equals("INDEX")) {
                 File directory = new File(System.getProperty("user.home"));
                 String[] files = directory.list();
-                System.out.println(Arrays.toString(files));
                 sendMsg(client, Arrays.toString(files));
             } else if (messageIn.startsWith("GET")) {
                 String fileName = messageIn.substring(3).trim();
@@ -81,20 +81,19 @@ public class FileServer {
                         while ((line = br.readLine()) != null) {
                             sb.append(line).append('\n');
                         }
-                        System.out.println(sb);
                     }
                     sendMsg(client, sb.toString());
                 } else {
                     // // send "ERROR, error msg" and close connection
-                    sendMsg(client, "ERROR : " + fileName + " is not file name");
+                    throw new IllegalArgumentException("ERROR : " + fileName + " is not file name");
                 }
             } else {
-                sendMsg(client, "입력은 INDEX거나 GET <fileName>이어야 합니다.");
+                throw new IllegalArgumentException("입력은 INDEX거나 GET <fileName>이어야 합니다.");
             }
             client.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
@@ -108,14 +107,13 @@ public class FileServer {
      */
     private static void sendMsg(Socket client, String response) {
         try {
-            System.out.println("Connection from " +
-                    client.getInetAddress().toString());
+            logger.info("Connection from {}", client.getInetAddress());
             PrintWriter outgoing;   // Stream for sending data.
             outgoing = new PrintWriter(client.getOutputStream());
             outgoing.println(response);
             outgoing.flush();  // Make sure the data is actually sent!
         } catch (Exception e) {
-            System.out.println("Error: " + e);
+            logger.warn("Error: {}", e);
         }
     } // end sendDate()
 
