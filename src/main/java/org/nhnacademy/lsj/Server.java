@@ -1,10 +1,12 @@
 package org.nhnacademy.lsj;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,10 +44,10 @@ public class Server {
 
     }
 
-    private static void isValidate(PrintWriter printWriter, File file) {
+    private static void isValidate(PrintWriter bw, File file) throws IOException {
 
         if (file.isFile() || file.isDirectory()) {
-            printWriter.println("OK");
+            bw.println("OK");
             return;
         }
 
@@ -56,49 +58,39 @@ public class Server {
     }
 
 
-    private static void sendData(Socket client) {
+    private static void sendData(Socket server) {
 
 
-        try {
+        try (BufferedReader bf = new BufferedReader(new InputStreamReader(server.getInputStream()));
+             PrintWriter pw = new PrintWriter(new OutputStreamWriter(server.getOutputStream())))
+        {
 
-            logger.info("Connection from " + client.getInetAddress());
+            logger.info("Connection from " + server.getInetAddress());
 
-
-            // index -> 디렉토리 목록 알려줌
-
-            BufferedReader bf = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            // 클라이언트의 입력
-
-            PrintWriter outputStreamFromServer;
-
-            outputStreamFromServer = new PrintWriter(client.getOutputStream(), true); // 서버가 클라이언트에게
 
             String str = bf.readLine();
 
+            str.replace(" ", ""); // 공백제거
+
+
             File file;
-
-            System.out.println(str);
-
 
             if (str.equals("INDEX")) {
 
                 file = new File(path);
 
-                isValidate(outputStreamFromServer, file);
-
                 String[] files = file.list();
 
                 for (int i = 0; i < files.length; i++) {
-                    outputStreamFromServer.println(files[i]);
+                    logger.info("{}", files[i]);
+                    pw.println(files[i]);
                 }
 
             } else if (str.substring(0, 3).equals("GET")) {
 
-                System.out.println(str.substring(4));
-
                 file = new File(path + "/" + str.substring(4));
 
-                isValidate(outputStreamFromServer, file);
+                isValidate(pw, file);
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
@@ -106,20 +98,15 @@ public class Server {
 
                 while ((temp = bufferedReader.readLine()) != null) {
                     logger.info(temp); // 서버 로그
-                    outputStreamFromServer.println(temp); // 클라이언트가 받음
+                    pw.println(temp);  // 클라이언트한테 출력
                 }
-
-                outputStreamFromServer.println(file);
-
 
             } else {
                 logger.warn("잘못된 명령어입니다");
                 throw new IllegalArgumentException();
             }
 
-            outputStreamFromServer.println("Socket Close");
-            client.close();
-
+            pw.println("Socket Close");
         } catch (IOException e) {
             logger.info("Error: " + e.getMessage());
         }
