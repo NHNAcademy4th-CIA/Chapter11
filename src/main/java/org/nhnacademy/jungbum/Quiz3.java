@@ -10,8 +10,9 @@ import java.io.*;
  */
 public class Quiz3 {
     public static final int LISTENING_PORT = 32007;
+    public static final String hostName="127.0.0.1";
+
     public Quiz3(){
-        String hostName;
         Socket connection;
         BufferedReader incoming;
 
@@ -19,7 +20,6 @@ public class Quiz3 {
             Scanner stdin = new Scanner(System.in);
 //            System.out.print("Enter computer name or IP address: ");
 //            hostName = stdin.nextLine();
-        hostName="127.0.0.1";
         /* Make the connection, then read and display a line of text. */
 
         try {
@@ -27,7 +27,7 @@ public class Quiz3 {
             System.out.println("test");
             PrintWriter outgoing;
             outgoing = new PrintWriter(connection.getOutputStream());
-            outgoing.println(stdin.next());
+            outgoing.println(stdin.nextLine());
             incoming = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()) );
             String lineFromServer;

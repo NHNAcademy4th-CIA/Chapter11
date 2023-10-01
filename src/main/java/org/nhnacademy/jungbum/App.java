@@ -12,6 +12,6 @@ public class App
 //        new Quiz1();
 //        new Quiz2();
         new Quiz3();
-        new Quiz5();
+//        new Quiz5();
     }
 }
