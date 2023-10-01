@@ -64,12 +64,10 @@ public class Quiz3Server {
         logger.info("입력값: {}", input);
         stringTokenizer = new StringTokenizer(input);
         if (input.equals("INDEX")) {
-            if (directory.isDirectory() == false) {
                 if (directory.exists() == false)
                     logger.warn("디렉토리가 없습니다.");
                 else
-                    logger.warn("파일이 디렉토리에 존재하지 않습니다.");
-            } else {
+                    logger.warn("파일이 디렉토리에 존재하지 않습니다.");else {
 
                 try {
                     PrintWriter outgoing;   // Stream for sending data.
