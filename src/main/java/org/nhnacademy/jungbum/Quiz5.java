@@ -66,7 +66,7 @@ class XML {
             logger.info("File name:  {}", dataFile.getAbsolutePath());
         } else {
             logger.info("Reading phone book data...");
-            try (Scanner scanner = new Scanner(dataFile)) {
+            try {
                 DocumentBuilder docReader =
                         DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 Document xmldoc = docReader.parse(dataFile);
