@@ -50,7 +50,7 @@ public class Quiz3Server {
 
         File directory;        // File object referring to the directory.
         StringTokenizer stringTokenizer;
-        directory = new File("asd");
+        directory = new File("Disk");
         logger.info("연결된 ip : {}", connection.getInetAddress());
         String input = null;
         BufferedReader incoming;
