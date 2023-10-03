@@ -2,23 +2,25 @@ package org.nhnacademy.minju;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * .서버에서 지정된 파일의 복사본을 가져와 로컬에 저장
  */
 public class CopyFileClient {
-
+    private static final Logger logger = LoggerFactory.getLogger(CopyFileClient.class);
     public static final int LISTENING_PORT = 32007;
 
     /**
      * .copy.txt 에 복사본을 쓴다.
      * 바이트 단위로 읽어
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -33,7 +35,7 @@ public class CopyFileClient {
             hostName = args[0];
         } else {
             Scanner stdin = new Scanner(System.in);
-            System.out.print("Enter computer name or IP address: ");
+            logger.info("Enter computer name or IP address: ");
             hostName = stdin.nextLine();
         }
 
@@ -46,18 +48,10 @@ public class CopyFileClient {
             Scanner scanner = new Scanner(System.in);
             writer.println(scanner.nextLine());
 
-            //
-            FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/copy.txt");
-            InputStream inputStream = connection.getInputStream();
-            int temp;
-            while ((temp = inputStream.read()) != -1) {
-                fileOutputStream.write(temp);
-            }
-
-            inputStream.close();
-            fileOutputStream.close();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            br.lines().forEach(x -> logger.info("{}", x));
         } catch (Exception e) {
-            System.out.println("Error:  " + e);
+            logger.warn("Error:  {}", e.getMessage());
         }
 
     }  // end main()
