@@ -1,0 +1,50 @@
+Question 1:In Java, input/output is done using I/O streams. I/O streams are an abstraction. Explain what this means and why it is important.
+- 모든 스트림은 입력 소스 또는 출력을 보낼 수 있는 대상을 나타낸다.
+- 다양한 데이터 소스 및 대상에 대해 동일한 방법을 사용하여 출력이나 입력할 수 있게 해준다
+
+Question 2:Java has two types of I/O stream: character streams and byte streams. Why? What is the difference between the two types of streams?
+- character → 사람이 읽을 수 있는 형식의 데이터
+- byte → 컴퓨터가 기계 형식으로 읽고 쓰는 데이터
+
+Question 3:What is a file? Why are files necessary?
+- 저장장치에 저장된 데이터 모음
+- 영구적으로 데이터를 저장하기 위해 파일을 사용한다
+
+Question 4:What is the point of the following statement?
+
+out = new PrintWriter( new FileWriter("data.dat") );
+Why would you need a statement that involves two different stream classes, PrintWriter and FileWriter?
+
+- printwriter 클래스가 filewriter 클래스의 wrapper로 사용됨
+- FileWriter로 “data.dat” 파일을 읽고 PrintWriter로 PrintWriter 객체로 래핑한다.
+
+Question 5:The package java.io includes a class named URL. What does an object of type URL represent, and how is it used?
+- 리소스에 고유하게 식별되는 주소
+- URL 객체 : `https://math.hws.edu/eck/`, openConnection 메서드를 이용하여 웹 주소의 정보에 액세스할 수 있다.
+
+Question 6:What is the purpose of the FileChooser class?
+- 사용자가 파일을 선택할 수 있게 창을 생성하는 클래스
+
+Question 7:Explain what is meant by the client / server model of network communication.
+- 서버가 일종의 서비스를 제공하고 클라이언트는 서버에 연결함으로써 서비스에 대한 접근을 얻는다
+
+Question 8:What is a socket?
+- 네트워크의 다른 프로그램과 연결을 설정하기 위해 프로그램에 의해 사용되는 소켓 클래스 객체
+
+Question 9:What is a ServerSocket and how is it used?
+- 리스닝 소켓을 생성하는 프로그램을 서버라고 하고 그 소켓은 서버 소켓이라고 불린다
+- 클라이언트의 요청을 기다린다
+- 클라이언트의 연결 요청을 기다리는 수신 소켓(연결에 참여하지 않으며 연결 요청을 수신하고 실제 연결을 처리하기 위한 소켓을 생성한다.)
+
+Question 10:What is meant by an element in an XML document?
+- element는 태그로 시작하여 엔드 태그로 끝난다. 요소의 내용은 텍스트와 중첩된 구조로 구성될 수 있다.
+
+Question 11:What is it about XML that makes it suitable for representing almost any type of data?
+- 데이터 타입에 적합한 태그 이름이나 문서 구조를 선택할 수 있다.
+
+Question 12:Write a complete program that will display the first ten lines from a text file. The lines should be written to standard output, System.out. The file name is given as the command-line argument args[0]. You can assume that the file contains at least ten lines. Don't bother to make the program robust. Do not use TextIO to process the file; read from the file using methods covered in this chapter.
+
+BufferedReader br = new BufferedReader(new FileReader(new File(args[0])));
+for(String line : br.readLine()) {
+    System.out.println(line);
+}
