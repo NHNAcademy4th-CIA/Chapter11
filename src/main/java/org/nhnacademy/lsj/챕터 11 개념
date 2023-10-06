@@ -310,3 +310,9 @@ void doClientConnection(String computerName, int serverPort) {
 데몬 = 사용자가 관계없이 컴퓨터에서 지속적으로 실행되는 프로그램
 
 
+DOM 이란?
+
+코드로 작성된 HTML 파일을 ->  DOM(Document Object Model)을 통해서 구조화된 표현으로 바꿔주는 것
+
+패키지 구조 짜놓은 것 처럼 됨.
+

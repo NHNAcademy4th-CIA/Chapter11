@@ -1,0 +1,114 @@
+= Chapter 11 프로그래밍 문제 및 퀴즈 정의
+
+=== link:https://math.hws.edu/javanotes/c10/exercises.html[Programing Exercise For Chapter 11]
+
+=== link:https://math.hws.edu/javanotes/c11/quiz.html[Quiz on Chapter 11]
+
+---
+
+==  Chapter 11 Quiz
+
+* Question 1:
+
+In Java, input/output is done using I/O streams. I/O streams are an abstraction.
+
+Explain what this means and why it is important.
+
+.Answer
+[%collapsible%open]
+====
+
+I/O Stream은 Input Output에 대한 Data의 흐름을 명시해 놓은 것입니다.
+
+나를 향해 Data가 들어오면 Input , 나가면 Output에 속합니다.
+
+Input , Output Stream은  Abstract Class 로 정의 돼있습니다.
+
+Abstract Class는 미완성 설계도로 필수적으로 필요한 연산과 field variable 을 갖고 있으며 +
+추가적인 기능 명시도 가능한 Class 입니다.
+
+따라서 이 class를 extends 받아서 사용 한다면 직접적으로 기능 구현을 하거나 변수 선언을 하지 않더라도
+
+super class에서 사용된 것을 그래도 사용 가능해집니다.
+
+이런 방식으로 사용자가 사용하게 되는 기능 및 변수를 간략화 시키게 되고 , 따라서 Abstracion 하게 된다라 말 할 수 있습니다.
+
+이런 방식은 개발자로 하여금 코드를 간추리게 되고 , 사용자는 내부적인 구현을 모르더라도 간략하게 사용이 가능해 집니다.
+
+====
+
+* Question 2:
+
+Java has two types of I/O stream: character streams and byte streams.
+
+Why? What is the difference between the two types of streams?
+
+.Answer
+[%collapsible%open]
+====
+
+Byte Stream은 컴퓨터끼리의 Data 교환을 위한 것으로 1byte 단위로 통신을 합니다.
+
+Chracter Stream은 사람이 보기 위한 것으로 영어만 있는 경우에는 기존의 ASCII CODE 처럼  1byte로 표현이 가능하지만
+
+한국어 , 중국어 등등의 언어들도 사용되기 떄문에 2byte단위로 나타냅니다.
+
+
+
+====
+
+* Question 7:
+
+Explain what is meant by the client / server model of network communication.
+
+.Answer
+[%collapsible%open]
+====
+image::Client-server-model.png[Clinet-server-model]
+
+한 개의 server에 여러개의 Client가 인터넷을 통해서 접속이 가능합니다.
+
+Sever는 하나의 IP주소와 ,Port를 가지며 Socket을 통해서 여러 Client와 통신합니다.
+
+====
+
+
+* Question 8:
+
+What is a socket?
+
+.Answer
+[%collapsible%open]
+====
+
+Socket은 데이터를 주고받는 경로입니다.
+
+Socket을 통해서 데이터를 주고받는 경로를 알 수 있고
+
+이 경로를 통해서 packet을 보내게 됩니다.
+
+마지막으로 Data가 도착하는 종단점인 port로 Data를 받게 됩니다.
+
+====
+
+
+* Question 10:
+
+What is meant by an element in an XML document?
+
+.Answer
+[%collapsible%open]
+====
+XML 에서의 Element는 시작태그와 끝 태그 안에 있는 모든 것을 의미합니다.
+
+tag는 attribute와 text등으로 이루어져 있습니다.
+
+
+====
+
+
+
+
+
+
+

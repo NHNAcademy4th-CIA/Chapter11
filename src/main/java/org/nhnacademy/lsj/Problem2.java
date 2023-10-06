@@ -34,18 +34,18 @@ public class Problem2 {
 
         for (int i = 0; i < textName.size(); i++) {
 
-            try (BufferedReader bf = new BufferedReader(new FileReader(textName.get(i)))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(textName.get(i)))) {
 
 
                 BufferedWriter bw = new BufferedWriter(new FileWriter(textName.get(i) + "_Copy_By_BufferWriter"));
-                PrintWriter pw = new PrintWriter(new FileWriter(textName.get(i) + "_Copy_By_PrintWriter"),true);
+                PrintWriter pw = new PrintWriter(new FileWriter(textName.get(i) + "_Copy_By_PrintWriter"), true);
 
 
                 int count = 0;
 
                 String str = null;
 
-                while ((str = bf.readLine()) != null) {
+                while ((str = br.readLine()) != null) {
                     bw.write(str);
                     bw.newLine();
                     pw.println(str);
