@@ -1,6 +1,6 @@
 = Chapter 11 프로그래밍 문제 및 퀴즈 정의
 
-=== link:https://math.hws.edu/javanotes/c10/exercises.html[Programing Exercise For Chapter 11]
+=== link:https://math.hws.edu/javanotes/c11/exercises.html[Programing Exercise For Chapter 11]
 
 === link:https://math.hws.edu/javanotes/c11/quiz.html[Quiz on Chapter 11]
 
