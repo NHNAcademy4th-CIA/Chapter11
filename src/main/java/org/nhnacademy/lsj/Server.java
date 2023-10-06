@@ -37,7 +37,8 @@ public class Server {
                 sendData(connection);
             }
         } catch (Exception e) {
-            logger.warn("서버 다운");
+            logger.warn("{}",e.getMessage());
+            logger.info("서버 다운");
         }
 
 
